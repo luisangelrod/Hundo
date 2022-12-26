@@ -2,7 +2,7 @@
 <html lang="en" class="h-100">
 
 <head>
-    <title>App Name: A coding project by Luis Rodriguez</title>
+    <title>#HUNDO: A coding project by Luis Rodriguez</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -25,7 +25,7 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container-fluid">
         
-        <a class="navbar-brand" href="#"><img src="img/favicon_io (1)/favicon-32x32.png" class="d-inline-block align-text-top" width="30" height="24" class="navbar-brand" href="#"> APP NAME</a>
+        <a class="navbar-brand" href="#"><img src="img/favicon_io (1)/favicon-32x32.png" class="d-inline-block align-text-top" width="30" height="24" class="navbar-brand" href="#"> #HUNDO</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -43,10 +43,10 @@
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="#">Git Repo</a>
+                    <a class="nav-link" target="_blank" href="https://github.com/luisangelrod/Hundo">Git Repo</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target="_blank" href="#">About</a>
+                    <a class="nav-link" target="_blank" href="https://vespersoftware-portfolio.netlify.app/">My Portfolio</a>
                 </li>
             </ul>
         </div>
@@ -55,23 +55,137 @@
 <!-- ==== Main Section ==== -->
  <main class="flex-shrink-0">
     <div class="container py-5 px-5 mt-5">
-       <h2 class="border-1 border-bottom border-dark">The code for this app.</h2>
+       <h2 class="border-1 border-bottom border-dark">The code for #HUNDO</h2>
         <div class="row row-cols-1 row-cols-lg-2">
+            <!--code side-->
             <div class="col-lg-8">
                 <pre class="line-numbers"><code class="language-javascript">
-//Call Hello World
-function HelloWorld(){
- alert("Hello World");
-}
+                    // Get the values from page
+                    // start or controller function
+                    function getValues(){
+                        // get values from the page
+                        let startValue = document.getElementById("startValue").value;
+                        let endValue = document.getElementById("endValue").value;
+                       
+                    
+                    
+                       
+                        //we need validate our inout
+                        // Parse into integers; decimals are truncated
+                        startValue = parseInt(startValue);
+                        endValue = parseInt(endValue);
+                    
+                        if(Number.isInteger(startValue) && Number.isInteger(endValue)){
+                            //we call generateNumbers
+                            numbers = generateNumbers(startValue, endValue);
+                            // We call displayNumbers
+                              displayNumbers(numbers);
+                    
+                        } else {
+                            alert("You must enter integers");
+                        }
+                           
+                    
+                          
+                    }
+                    
+                            //generate numbers from startValue to endValue
+                            //logic functions
+                    
+                            function generateNumbers(sValue, eValue){
+                                let numbers=[];
+                    
+                                
+                                //we want to get numbers from start to end
+                    
+                                for(let index = sValue; index <= eValue; index++){
+                                    //this will execute in a loop until index = eValue (in this case 100 times)
+                                    numbers.push(index);
+                    
+                                }
+                    
+                                return numbers;
+                            }
+                    
+                            //display the numbers and amrk even numbers bold
+                            //display or view functions
+                            function displayNumbers(numbers){
+                    
+                                let templateRows= ""
+                                for (let index = 0; index < numbers.length; index++) {
+                    
+                                    
+                                    let className = "even";
+                                    let number = numbers[index];
+                    
+                                    if(number % 2 == 0){  
+                                        className = "even";  
+                                    }
+                                    else{
+                                        className = "odd";
+                    
+                                    }
+                                    //This does render correctly with Prism
+                                    templateRows += `<tr><td class="${className}">${number}</td></tr>`;
+                                    
+                                }
+                    
+                                document.getElementById("results").innerHTML = templateRows;
+                    
+                            
+                        
+                    }
 
                 </code>
                 </pre>
             </div>
             <div class="col-lg-4">
-                <p>The code is structured in one function.</p>
-                <h5>Hello World</h5>
-                <p>Hello Wolrd is a function that displays an alert with a message of "Hello World"</p>
-
+                <p class="pt-1">Here are some brief explanations of the functions used in this project.</p>
+                <h5>getValues()</h5>
+                <p>
+                    &emsp;The getValues function is our starting point for the application. First, we take in the values
+                     from our inputs in the webpage, and store them inside appropriately named variables. Next, we 
+                     make sure to check to ensure the values entered are actually integers by using the built-in 
+                     <i>parseInt</i> function. This function attempts to convert any strings entered to integers. We then 
+                     check for the success of this parsing with an if/else statement.
+                </p>
+                <p>
+                    &emsp;Inside the if statement we check for two conditions: is the startValue variable an integer AND is 
+                    the endValue variable an integer. If both of these conditions return true, then we move on with the overall process. 
+                    If either of the tested conditions return false, then we alert the user to remind them to enter only an integer value into the fields.
+                     Once we have the true conditions met, we create a new variable named numbers, and set it equal to whatever our function 
+                     <i>generateNumbers</i> returns when we pass in the startValue and endValue parameters.
+                </p>
+                <p>&emsp;The function then takes the numbers variable (it will be an array), and calls the final function <i>displayNumbers</i> while
+                    passing this numbers array in as parameter.
+                </p>
+                <h5>generateNumbers()</h5>
+                <p>
+                    &emsp;This function starts by creating an empty array variable called numbers. Using two parameters, startValue and endValue, from the 
+                    <i>getValues</i> function we create a for loop. This for loop starts with the startValue value, and loops over every number up to and 
+                    including the endValue. During each loop we are simply adding that number to our numbers array using the <i>push</i> function. 
+                    After each number in our range has been added to the numbers array, we return the numbers array back to the <i>getValues</i> function.
+                </p>
+                <h5>displayNumbers()</h5>
+                <p>
+                    &emsp;This function is where the real magic happens. The previously acquired numbers array is passed in as a parameter, 
+                    and provides us with an array of numbers we want to display in our html table dynamically. The ultimate goal of this 
+                    function is to have a string of html table rows to insert into our results table on-screen.
+                </p>
+                <p>
+                    &emsp;We start by creating a variable called templateRows, which is an empty string to start. We then start another for loop. 
+                    This loop is designed to run as many times as there are elements in the numbers array, which is achieved using the <i>array.length</i> 
+                    function when setting up the for loop. We create a variable of className to allow us to apply styling to the html elements we are 
+                    about to create. Inside each loop we want to look at each individual number, and we do this with the number variable being 
+                    equivalent to the value at the array's current index location. We then test that number to see if it is even or odd using the modulo (%) 
+                    operator. If the number is evenly divisible by two, then number % 2 == 0, and we add the "even" class to our html elements. 
+                    If the number is not divisible by two, then we add the "odd" class to our html element. At the end of the loop we simply append 
+                    a string containing our table row tags, the proper class designation, and the value of the number variable.
+                </p>
+                <p>
+                    &emsp;The last line in our code grabs the element in our html with the id "results," in our case our table, and sets 
+                    its the html inside that element to the string created by our for loop. This html creates the table you see on screen.
+                </p>
             </div>
         </div>
     </div>
@@ -91,7 +205,7 @@ function HelloWorld(){
                         <div class="col social"><a href="https://www.linkedin.com/in/luis-rodriguez-515858bb/" target="_blank"><i class="fab fa-linkedin fa 2x"></i></a></div>
                         <div class="col social"><a href="https://github.com/luisangelrod" target="_blank"><i class="fab fa-github fa 2x"></i></a></div>
                         <div class="col social"><a href="https://twitter.com/home" target="_blank"><i class="fab fa-twitter fa 2x"></i></a></div>
-                        <div class="col social"><a href="https://www.instagram.com/lrodriguez16/" target="_blank"><i class="fab fab fa-instagram fa 2x"></i></a></div>
+                        
                     </div>
                 </div>
             </div>
