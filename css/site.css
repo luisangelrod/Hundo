@@ -6,18 +6,6 @@
 
 }
 
-.odd{
-    font-weight: 100;
-}
-
-.even{
-    font-size: bold;
-    font-size: large;
-}
-.logoFont{
-    font-family: 'Racing Sans One', cursive;
-}
-
 body {
     color: var(--dark-color);
 }
