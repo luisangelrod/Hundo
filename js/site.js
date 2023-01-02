@@ -1,74 +1,61 @@
-// Get the values from page
+// === Get the values from webpage === //
 // start or controller function
 function getValues(){
     // get values from the page
     let startValue = document.getElementById("startValue").value;
     let endValue = document.getElementById("endValue").value;
-   
 
-
-   
-    //we need validate our inout
-    // Parse into integers; decimals are truncated
+    // this step ensures the values entered are converted to integers; decimals are truncated
     startValue = parseInt(startValue);
     endValue = parseInt(endValue);
 
     if(Number.isInteger(startValue) && Number.isInteger(endValue)){
-        //we call generateNumbers
-        numbers = generateNumbers(startValue, endValue);
-        // We call displayNumbers
-          displayNumbers(numbers);
-
+        // call generateNumbers
+        let numbers = generateNumbers(startValue, endValue);
+        // call displayNumbers
+        displayNumbers(numbers);
     } else {
-        alert("You must enter integers");
+        alert("You must enter integers!");
     }
-       
-
-      
 }
 
-        //generate numbers from startValue to endValue
-        //logic functions
+// === Generate numbers from startValue to the endValue === //
+// logic function(s)
+function generateNumbers(startValue, endValue){
+    // numbers generated will go in an array
+    let numbers = [];
 
-        function generateNumbers(sValue, eValue){
-            let numbers=[];
+    for(let i = startValue; i <= endValue; i++){
+        numbers.push(i);
+    }
+    // return the new array full of numbers from startValue to endValue
+    return numbers;
+}
 
-            
-            //we want to get numbers from start to end
+// === Display the numbers, and mark the evens bold === //
+// display or view functions
+function displayNumbers(numbers){
 
-            for(let index = sValue; index <= eValue; index++){
-                //this will execute in a loop until index = eValue (in this case 100 times)
-                numbers.push(index);
+    let templateRows = "";
 
-            }
+    for (let i = 0; i < numbers.length; i++) {
 
-            return numbers;
+        let className = "even";
+
+        // pull out each individual number each time we loop through the array
+        let number = numbers[i];
+
+        // generate a new table row that holds that individual number
+        if (number % 2 == 0){
+            // if the number is divisible by 2 (if it's even), then keep the class as even
+            className = "even";
+        } else {
+            // if the number is odd, then change the class to odd
+            className = "odd";
         }
+        // This does not render correctly with Prism; see the source code
+        templateRows += `${number}`;
+    }
 
-        //display the numbers and amrk even numbers bold
-        //display or view functions
-        function displayNumbers(numbers){
-
-            let templateRows= ""
-            for (let index = 0; index < numbers.length; index++) {
-
-                
-                let className = "even";
-                let number = numbers[index];
-
-                if(number % 2 == 0){  
-                    className = "even";  
-                }
-                else{
-                    className = "odd";
-
-                }
-                templateRows += `<tr><td class="${className}">${number}</td></tr>`;
-                
-            }
-
-            document.getElementById("results").innerHTML = templateRows;
-
-        
-    
+    document.getElementById("results").innerHTML = templateRows;
 }
