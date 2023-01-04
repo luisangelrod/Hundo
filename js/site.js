@@ -1,109 +1,66 @@
-// Get values from page
+// === Get the values from webpage === //
+// start or controller function
 function getValues(){
-    let loanAmount = document.getElementById("loanAmountInput").value;
-    let months = document.getElementById("totalMonthsInput").value;
-    let rate = document.getElementById("rateInput").value;
+    // get values from the page
+    let startValue = document.getElementById("startValue").value;
+    let endValue = document.getElementById("endValue").value;
 
-    if (loanAmount == ""){
-        loanAmount = parseFloat(15000);
+    // parse into integers
+    startValue = parseInt(startValue);
+    endValue = parseInt(endValue);
+
+    if(Number.isInteger(startValue) && Number.isInteger(endValue)){
+        // we call generateNumbers
+        let numbers = generateNumbers(startValue, endValue);
+        // we call displayNumbers
+        displayNumbers(numbers);
     } else {
-        loanAmount = parseFloat(loanAmount);
-    }
+        alert("You must enter integers!");
+    }   
 
-    if (months == ""){
-        months = parseFloat(60);
-    } else {
-        months = parseFloat(months);
-    }
 
-    if (rate == ""){
-        rate = parseFloat(3);
-    } else {
-        rate = parseFloat(rate);
-    }
-    
-    // do loan calculations
-    let resultsHTML = loanCalculations(loanAmount, rate, months);
-
-    // display the html to screen
-    displayResults(resultsHTML);
 }
 
-// Calculations
-function loanCalculations(loanAmount, rate, months){
+// === Generate numbers from startValue to the endValue === //
+// logic function(s)
+function generateNumbers(startValue, endValue){
+    // numbers generated will go in an array
+    let numbers = [];
 
-    let resultsObject = {};
+    for(let i = startValue; i <= endValue; i++){
+        numbers.push(i);
+    }
+    // return the new array full of numbers from startValue to endValue
+    return numbers;
 
-    let totalInterest = 0;
-    let balance = loanAmount;
-    let interestPayment = 0;
-    let principalPayment;
-   
-    // Calculate the total monthly payment
-    let monthExponent = -Math.abs(months);
-    let monthlyPayment = (loanAmount * (rate/1200)) / (1-(1+(rate/1200))**(monthExponent));
-    monthlyPayment = parseFloat(monthlyPayment);
+}
+
+
+// === Display the numbers, and mark the evens bold === //
+// display or view functions
+function displayNumbers(numbers) {
     
-    let html = "";
-    
-    for (let i = 1; i <= months; i++){
-        let month = i;
-        interestPayment = parseFloat(balance*(rate/1200));
-        principalPayment = parseFloat(monthlyPayment - (balance * (rate/1200)));
-        totalInterest = parseFloat((totalInterest + interestPayment));
-        totalInterest = parseFloat(totalInterest);
-        balance -= principalPayment;
-        balance = Math.abs(parseFloat(balance));
+    let templateRows = "";
 
-        html += `<tr><td>${month}</td><td>${monthlyPayment.toFixed(2)}</td><td>${principalPayment.toFixed(2)}</td><td>${interestPayment.toFixed(2)}</td><td>${totalInterest.toFixed(2)}</td><td>${balance.toFixed(2)}</td></tr>`
+    for (let i = 0; i < numbers.length; i++) {
+        
+        let className = "even";
+        
+        // pull out each individual number each time we loop through the array
+        let number = numbers[i];
+        
+        // generate a new table row that holds that individual number        
+        if (number % 2 == 0){
+            // if the number is divisible by 2 (if it's even), then keep the class as even
+            className = "even";
+        } 
+        else {
+            // if the number is odd, then change the class to odd
+            className = "odd";
+        }
+
+        templateRows += `<tr><td class="${className}" >${number}</td></tr>`;
     }
     
-    let totalCost = loanAmount + totalInterest;
-
-    // display calculated variables to proper positions while inside function
-    // use the .toLocaleString to convert to USD format 
-    resultsObject.monthlyPayment = monthlyPayment.toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      });
-
-    resultsObject.totalPrincipal = loanAmount.toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      });
-    
-    resultsObject.totalInterest = totalInterest.toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    });
-
-    resultsObject.totalCost = totalCost.toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        });
-
-    resultsObject.html = html;
-
-    return resultsObject;
-}
-
-// Display results
-function displayResults(resultsObject){
-    document.getElementById("monthPaymentsOutput").innerHTML =  resultsObject.monthlyPayment;
-    document.getElementById("totalPrincipalOutput").innerHTML = resultsObject.totalPrincipal;
-    document.getElementById("totalInterestOutput").innerHTML = resultsObject.totalInterest;
-    document.getElementById("totalCostOutput").innerHTML =  resultsObject.totalCost
-    document.getElementById("results").innerHTML = resultsObject.html;
-}
-
-// Reset page
-function resetPage(){
-    loanAmount = document.getElementById("loanAmountInput").value = "";
-    months = document.getElementById("totalMonthsInput").value = "";
-    rate = document.getElementById("rateInput").value = "";
-    document.getElementById("monthPaymentsOutput").innerHTML = "";
-    document.getElementById("totalPrincipalOutput").innerHTML = "";
-    document.getElementById("totalInterestOutput").innerHTML = "";
-    document.getElementById("totalCostOutput").innerHTML = "";
-    document.getElementById("results").innerHTML = "";
+    document.getElementById("results").innerHTML = templateRows;
 }
